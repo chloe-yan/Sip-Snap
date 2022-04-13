@@ -1,0 +1,256 @@
+/* ALL PAGES */
+@font-face {
+    font-family: "Neue Haas Unica";
+    src: url("/public/fonts/NeueHaasUnica-Regular.ttf")
+}
+
+@font-face {
+    font-family: "Neue Haas Unica SemiBold";
+    src: url("/public/fonts/NeueHaasUnica-Medium.ttf")
+}
+
+@font-face {
+    font-family: "Neue Haas Unica Bold";
+    src: url("/public/fonts/NeueHaasUnica-Bold.ttf")
+}
+
+body {
+    height:100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    letter-spacing: 0.5px;
+    font-family: Neue Haas Unica;
+}
+
+h1 {
+    font-family: Neue Haas Unica Bold;
+    margin-top: 150px;
+    font-size: 2.5rem;
+    color: #1b2a3d;
+}
+
+
+#topbar {
+    margin: 0;
+    display: absolute;
+    width: 100vw;
+    height: 6px;
+    background-image: linear-gradient(to right, #196fef , #f04494);
+}
+
+
+/* FORMS */
+
+form {
+    font-size: 1rem;
+    margin-top: 20px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    margin-bottom: 80px;
+}
+
+input, textarea {
+    font-family: Neue Haas Unica SemiBold;
+    font-weight: 500;
+    margin-top: 8px;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1.5px solid #D8DBE0;
+    color: #1486D2;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+}
+
+input[type=file] {
+    padding: 0;
+    border: none;
+    border-radius: 0px;
+    margin-bottom: 20px;
+}
+
+input[type=password] {
+    letter-spacing: 2px;
+    font-weight: 900;
+}
+
+input[type=file]::-webkit-file-upload-button {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 10px;
+    font-family: Neue Haas Unica SemiBold;
+    background: #51b4f7;
+    font-weight: 600;
+    color: white;
+    margin-right: 10px;
+}
+
+input[type=submit] {
+    margin-top: 18px;
+    color: white;
+    font-weight: 600;
+    background-color: #1D9BF0;
+    padding: 12px 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.verify-checkboxes {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.verify-checkbox {
+    margin-top: -20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.verify-checkbox > label {
+    margin-top: 5px;
+    margin-left: 6px;
+}
+
+a {
+    color: gray;
+}
+
+#post-image {
+    width: 350px;
+}
+
+
+/* VIEW POST */
+
+img {
+    width: 350px;
+    border: 3px solid #1D9BF0;
+    border-radius: 10px;
+}
+
+.post-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+#time {
+    margin-top: 8px;
+    font-style: italic;
+    color: #A3A3A3;
+}
+
+#desc {
+    margin-top: 0px;
+}
+
+/* HOME */
+nav {
+    margin-top: 20px;
+    margin-bottom: -80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-links p {
+    color: #717485;
+    font-weight: bold;
+}
+
+nav a {
+    font-family: Neue Haas Unica Bold;
+    font-size: 20px;
+    color: #2569d5;
+    text-decoration: none;
+}
+
+.nav-links a {
+    font-family: Neue Haas Unica;
+    font-size: 17px;
+    color: #1b2a3d;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#photo-container {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    justify-items: center;
+    gap: 40px;
+}
+
+.photo {
+    text-align: center;
+}
+
+.photo img {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    border: 3px solid #1D9BF0;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.photo p {
+    margin-top: 8px;
+    font-style: italic;
+    color: #70778b;
+}
+
+#count-label {
+    margin-bottom: -25px;
+    color: #70778b;
+}
+
+label {
+    color: #1b2a3d;
+}
+
+#count {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #063758;
+    color: white;
+    width: 100vw;
+    text-align: center;
+    height: 50px;
+}
+
+@media (max-width: 750px) {
+    #photo-container {
+        grid-template-columns: repeat(2, 200px);
+    }
+}
+
+@media (max-width: 500px) {
+    #photo-container {
+        grid-template-columns: repeat(1, 200px);
+    }
+}

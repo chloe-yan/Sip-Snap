@@ -7,6 +7,7 @@ const logger = require("morgan");
 const handlebars = require("express-handlebars");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const { requestPrint, successPrint } = require('./helpers/debug/debugprinters');
 
 const app = express();
 
@@ -34,6 +35,11 @@ app.use(cookieParser());
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  requestPrint(`Method ${req.method}, Route: ${req.url}`);
+  next();
+})
+
 app.use("/", indexRouter); // route middleware from ./routes/index.js
 app.use("/users", usersRouter); // route middleware from ./routes/users.js
 
@@ -54,9 +60,9 @@ app.use((req,res,next) => {
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = err;
-  console.log(err);
+  successPrint("User was created!")
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.status  || 500);
   res.render("error");
 });
 

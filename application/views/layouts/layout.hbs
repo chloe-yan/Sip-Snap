@@ -2,10 +2,17 @@
 <html>
   <head>
     <title>{{title}}</title>
-    <link rel="icon" href="/public/favicon.ico" sizes="70x70" type="image/ico">
-    <link rel='stylesheet' href='/public/stylesheets/style.css' />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="/public/images/icon.png">
+    <link rel='stylesheet' href='/public/css/style.css'/>
+    <script type="text/javascript" src="/public/js/home.js" defer></script>
+    <script type="text/javascript" src="/public/js/registration.js" defer></script>
   </head>
   <body>
+    <div id="topbar"></div>
+    {{> nav}}
     {{{body}}}
   </body>
+  {{> footer}}
 </html>
