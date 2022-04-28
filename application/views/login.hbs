@@ -1,10 +1,10 @@
 <h1>Welcome back 👋</h1>
-<form id="login">
+<form id="login" method="POST" action="/users/login" enctype="application/x-www-form-urlencoded">
     <label for="username">Username</label>
-    <input autocomplete="off" type="text" name="username">
+    <input autocomplete="off" type="text" name="username" required>
     <br>
     <label for="password">Password</label>
-    <input autocomplete="off" type="password" name="password">
+    <input autocomplete="off" type="password" name="password" required>
     <br>
     <input type="submit" value="Enter the tearoom">
     <p>New to the tearoom? Register <a href="/register">here</a>!</p>

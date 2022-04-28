@@ -268,6 +268,17 @@ label {
     -webkit-text-fill-color: transparent;
 }
 
+#flash-message {
+    position: fixed;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, 0);
+}
+
+#flash-message div {
+    text-align: center;
+}
+
 footer {
     margin-top: auto;
     background-color: #063758;

@@ -1,7 +1,11 @@
 <nav>
     <a id="typemark" href="/">Sip snap 🍵</a>
     <div class="nav-links">
+        {{#if logged}}
+        <a href="/users/logout">Log out</a>
+        {{else}}
         <a href="/login">Login</a>
+        {{/if}}
         <p>•</p>
         <a href="/post">Share your sip</a>
     </div>

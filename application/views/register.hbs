@@ -1,16 +1,16 @@
 <h1>Create your account 🌱</h1>
-<form id="registration" method="post">
+<form id="registration" method="post" action="/users/register" enctype="application/x-www-form-urlencoded">
     <label for="username">Username</label>
-    <input autocomplete="off" type="text" name="username">
+    <input autocomplete="off" type="text" name="username" required>
     <br>
     <label for="email">Email</label>
-    <input autocomplete="off" type="email" name="email">
+    <input autocomplete="off" type="email" name="email" required>
     <br>
     <label for="password">Password</label>
-    <input autocomplete="off" type="password" name="password">
+    <input autocomplete="off" type="password" name="password" required>
     <br>
     <label for="passwordConfirm">Confirm your password</label>
-    <input autocomplete="off" type="password" name="passwordConfirm">
+    <input autocomplete="off" type="password" name="passwordConfirm" required>
     <br>
     <div class="verify-checkboxes">
         <div class="verify-checkbox">
