@@ -15,17 +15,14 @@ function displayWarningMessage(warning) {
 async function getConnection() {
   return await mysql.createConnection({
     host: "localhost",
-    //TODO make sure to change to the user you want to use
-    user: "root", //Your DB username
-    //TODO make sure to change to the correct password for your user.
-    password: "0322", //Your DB password
+    user: "root",
+    password: "0826",
   });
 }
 
 async function makeDatabase(connection) {
-  //TODO make sure to change yourdbnamehere
   const [result, _] = await connection.query(
-    "CREATE DATABASE IF NOT EXISTS yourdbnamehere;"
+    "CREATE DATABASE IF NOT EXISTS photodb;"
   );
   if (result && result.warningStatus > 0) {
     const [warningResult, _] = await connection.query("SHOW WARNINGS");
@@ -37,8 +34,21 @@ async function makeDatabase(connection) {
 
 async function makeUsersTable(connection) {
   const [result, _] = await connection.query(
-    // Users Table SQL Goes here
     `
+    CREATE TABLE IF NOT EXISTS photodb.users (
+      id INT NOT NULL AUTO_INCREMENT,
+      username VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      avatar VARCHAR(2048) NULL,
+      active INT DEFAULT 1 NOT NULL,
+      createdAt DATETIME NOT NULL,
+      type INT DEFAULT 1 NOT NULL,
+      PRIMARY KEY(id),
+      UNIQUE INDEX id_unique(id ASC) VISIBLE,
+      UNIQUE INDEX username_unique(username ASC) VISIBLE,
+      UNIQUE INDEX email_unique (email ASC) VISIBLE)
+      ENGINE = InnoDB
     `
   );
 
@@ -52,8 +62,26 @@ async function makeUsersTable(connection) {
 
 async function makePostsTable(connection) {
   const [result, _] = await connection.query(
-    // Posts Table SQL Goes here
-    ``
+    `
+    CREATE TABLE IF NOT EXISTS photodb.posts (
+      id INT NOT NULL AUTO_INCREMENT,
+      author_id INT NOT NULL,
+      title VARCHAR(255) NOT NULL,
+      content MEDIUMTEXT NOT NULL,
+      photopath VARCHAR(2048) NOT NULL,
+      thumbnail VARCHAR(2048) NOT NULL,
+      active INT NOT NULL DEFAULT 1,
+      createdAt DATETIME NOT NULL,
+      PRIMARY KEY (id),
+      UNIQUE INDEX id_unique(id ASC) VISIBLE,
+      INDEX author_index(author_id ASC) VISIBLE,
+      CONSTRAINT author
+        FOREIGN KEY (author_id)
+        REFERENCES photodb.users (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE)
+      ENGINE = InnoDB
+      `
   );
   if (result && result.warningStatus > 0) {
     const [warningResult, _] = await connection.query("SHOW WARNINGS");
@@ -65,8 +93,27 @@ async function makePostsTable(connection) {
 
 async function makeCommentsTable(connection) {
   const [result, _] = await connection.query(
-    // Comments Table SQL Goes here
     ` 
+    CREATE TABLE IF NOT EXISTS photodb.comments (
+      id INT NOT NULL AUTO_INCREMENT,
+      comment MEDIUMTEXT NOT NULL,
+      comment_post_id INT NOT NULL,
+      comment_author_id INT NOT NULL,
+      createdAt DATETIME NOT NULL,
+      UNIQUE INDEX id_unique (id ASC) VISIBLE,
+      INDEX comment_author_index (comment_author_id ASC) VISIBLE,
+      INDEX comment_post_index (comment_post_id ASC) VISIBLE,
+      CONSTRAINT comment_author
+        FOREIGN KEY (comment_author_id)
+        REFERENCES photodb.users(id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+      CONSTRAINT comment_post
+        FOREIGN KEY (comment_post_id)
+        REFERENCES photodb.posts(id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION)
+      ENGINE = InnoDB
     `
   );
   if (result && result.warningStatus > 0) {
@@ -81,12 +128,11 @@ async function makeCommentsTable(connection) {
   let connection = null;
   try {
     connection = await getConnection();
-    await makeDatabase(connection); // make DB
-    //TODO make sure to change yourdbnamehere
-    await connection.query("USE yourdbnamehere"); // set new DB to the current DB
-    await makeUsersTable(connection); // try to make user table
-    await makePostsTable(connection); // try to make posts table
-    await makeCommentsTable(connection); // try to make comments table
+    await makeDatabase(connection);
+    await connection.query("USE photodb");
+    await makeUsersTable(connection);
+    await makePostsTable(connection);
+    await makeCommentsTable(connection);
     connection.close();
     return;
   } catch (error) {

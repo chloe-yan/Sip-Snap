@@ -3,7 +3,7 @@ const checkUsername = (username) => {
 }
 
 const checkPassword = (password) => {
-    return (!/.{8,}/.test(password) && !/[A-Z]+/.test(password) && !/[0-9]+/.test(password) && !/[/*-+!@$^&*]+/.test(password));
+    return (/.{8,}/.test(password) && /[A-Z]+/.test(password) && /[0-9]+/.test(password) && /[/*-+!@$^&*]+/.test(password));
 }
 
 const checkEmail = (email) => {

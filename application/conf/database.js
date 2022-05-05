@@ -4,6 +4,7 @@ const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
     database: 'photodb',
+    password: '0826'
 });
 
-module.exports = db;
+module.exports = db.promise();

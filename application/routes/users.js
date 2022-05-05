@@ -6,7 +6,7 @@ const { successPrint, errorPrint } = require('../helpers/debug/debugprinters');
 const bcrypt = require('bcrypt');
 const { registerValidator } = require('../middleware/validation');
 
-router.post('/register', registerValidator, (req, res, next) => {
+router.post('/register', (req, res, next) => {
   let username = req.body.username;
   let email = req.body.email;
   let password = req.body.password;
@@ -14,6 +14,7 @@ router.post('/register', registerValidator, (req, res, next) => {
 
   db.execute("SELECT * FROM users WHERE username=?", [username]).then(([results, fields]) => {
     if (results && results.length == 0) {
+      console.log("EXECUTING SELECT EMAIL");
       return db.execute("SELECT * FROM users WHERE email=?", [email]);
     } else if (password != passwordConfirm) {
       throw new UserError("Registration Failed: Passwords do not match.", "/register", 200);
@@ -23,6 +24,7 @@ router.post('/register', registerValidator, (req, res, next) => {
   })
   .then(([results, fields]) => {
     if (results && results.length == 0) {
+      console.log("HASHING PASSWORD");
       return bcrypt.hash(password, 15);
     } else {
       throw new UserError("Registration Failed: Username already exists.", "/register", 200);
@@ -30,6 +32,7 @@ router.post('/register', registerValidator, (req, res, next) => {
   })
   .then((hashedPassword) => {
     let baseSQL = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, now());";
+    console.log("HAPPENING HERE");
     return db.execute(baseSQL, [username, email, hashedPassword]);
   })
   .then(([results, fields]) => {
@@ -59,8 +62,8 @@ router.post('/login', (req, res, next) => {
   let password = req.body.password;
 
   let baseSQL = "SELECT id, username, password FROM users WHERE username=?;";
-  let userid;
-  db.execute(baseSQL, [username, password])
+  let userId;
+  db.execute(baseSQL, [username])
   .then(([results, fields]) => {
     if (results && results.length == 1) {
       let hashedPassword = results[0].password;
@@ -95,7 +98,7 @@ router.post('/login', (req, res, next) => {
   });
 });
 
-router.post('/logout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
   req.session.destroy((err) => {
     if (err) {
       errorPrint("Session could not be destroyed.");
@@ -103,7 +106,7 @@ router.post('/logout', (req, res, next) => {
     } else {
       successPrint("Session was destroyed.");
       res.clearCookie("csid");
-      res.join({status: "OK", message: "User is logged out"});
+      res.redirect('/');
     }
   });
 });

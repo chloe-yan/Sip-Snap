@@ -8,7 +8,7 @@ const handlebars = require("express-handlebars");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const { requestPrint, successPrint } = require('./helpers/debug/debugprinters');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const cors = require('cors');
 const port = 3100
 const sessions = require('express-session');
@@ -64,14 +64,13 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 
-app.get('/', (req, res) => {
-
-  db.query('SELECT 1+1')
-  .then(([results, fields]) => {
-    res.json(results);
-  })
-  .catch(err => res.json(err));
-});
+// app.get('/', (req, res) => {
+//   db.query('SELECT 1+1')
+//   .then(([results, fields]) => {
+//     res.json(results);
+//   })
+//   .catch(err => res.json(err));
+// });
 
 app.get('/users', (req, res) => {
   db.query("SELECT * FROM users")
