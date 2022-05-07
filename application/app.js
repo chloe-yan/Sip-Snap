@@ -7,6 +7,7 @@ const logger = require("morgan");
 const handlebars = require("express-handlebars");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const postsRouter = require("./routes/posts");
 const { requestPrint, successPrint } = require('./helpers/debug/debugprinters');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
@@ -107,13 +108,7 @@ app.post('/posts', async (req, res) => {
   }
 })
 
-app.listen(port, () => {
-  console.log('Listening');
-})
-
-
 app.use((req, res, next) => {
-  console.log(req.session);
   if (req.session.username) {
     res.locals.logged = true;
   }
@@ -122,7 +117,7 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter); // route middleware from ./routes/index.js
 app.use("/users", usersRouter); // route middleware from ./routes/users.js
-
+app.use("/posts", postsRouter);
 
 /**
  * Catch all route, if we get to here then the 

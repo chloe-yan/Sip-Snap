@@ -41,7 +41,6 @@ h1 {
     color: #1b2a3d;
 }
 
-
 #topbar {
     margin: 0;
     display: absolute;
@@ -222,24 +221,44 @@ nav a {
     grid-template-columns: repeat(3, 200px);
     justify-items: center;
     gap: 40px;
+    margin-bottom: 80px;
 }
 
-.photo {
-    text-align: center;
+.card {
+    position: relative;
 }
 
-.photo img {
+.card-image {
     object-fit: cover;
     width: 200px;
     height: 200px;
-    border: 1.5px solid #2a5183;
+    border: 2px solid #2a5183;
     border-radius: 5px;
     margin: auto;
 }
 
-.photo p {
+.card-title {
     margin-top: 8px;
     color: #70778b;
+}
+
+.card-text {
+    margin-top: -10px;
+    color: #2a5183;
+}
+
+.card-details {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.card-details img {
+    width: 22px;
+    height: 22px;
+    border: none;
 }
 
 #count-label {

@@ -1,5 +1,8 @@
 <h1>Brewer 💭</h1>
-<p id="count-label">COUNT</p>
-<p id="count"></p>
+<!--<p id="count-label">COUNT</p>
+<p id="count"></p>-->
 <div id="photo-container">
+    {{#each results}}
+        {{> card this}}
+    {{/each}}
 </div>

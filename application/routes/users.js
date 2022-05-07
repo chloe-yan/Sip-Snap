@@ -14,7 +14,6 @@ router.post('/register', (req, res, next) => {
 
   db.execute("SELECT * FROM users WHERE username=?", [username]).then(([results, fields]) => {
     if (results && results.length == 0) {
-      console.log("EXECUTING SELECT EMAIL");
       return db.execute("SELECT * FROM users WHERE email=?", [email]);
     } else if (password != passwordConfirm) {
       throw new UserError("Registration Failed: Passwords do not match.", "/register", 200);
@@ -24,7 +23,6 @@ router.post('/register', (req, res, next) => {
   })
   .then(([results, fields]) => {
     if (results && results.length == 0) {
-      console.log("HASHING PASSWORD");
       return bcrypt.hash(password, 15);
     } else {
       throw new UserError("Registration Failed: Username already exists.", "/register", 200);
@@ -32,13 +30,12 @@ router.post('/register', (req, res, next) => {
   })
   .then((hashedPassword) => {
     let baseSQL = "INSERT INTO users (username, email, password, createdAt) VALUES (?, ?, ?, now());";
-    console.log("HAPPENING HERE");
     return db.execute(baseSQL, [username, email, hashedPassword]);
   })
   .then(([results, fields]) => {
     if (results && results.affectedRows) {
       successPrint("User successfully created!");
-      req.flash('success', "User has been successfully made.");
+      // req.flash('success', "User has been successfully made.");
       res.redirect('/login');
     } else {
       throw new UserError("Server Error: User could not be created.", "/register", 500);
@@ -79,8 +76,8 @@ router.post('/login', (req, res, next) => {
       req.session.username = username;
       req.session.id = userId;
       res.locals.logged = true;
-      req.flash('success', "You have been successfully logged in!");
-      res.redirect('/');
+      // req.flash('success', "You have been successfully logged in!");
+      res.redirect("/");
     } else {
       throw new UserError("Invalid username and/or password.", "/login", 200);
     }
