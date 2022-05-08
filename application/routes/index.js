@@ -35,7 +35,10 @@ router.get("/post/:id(\\d+)", (req, res, next) => {
   db.execute(baseSQL, [postId]).then(([results, fields]) => {
     if (results && results.length) {
       let post = results[0];
-      res.render("view", {currentPost: post});
+      var readableDate = post["createdAt"].toString();
+      var readableDateArr = readableDate.split(" ");
+      readableDate = readableDateArr[1] + " " + readableDateArr[2].replace("0", "") + ", " + readableDateArr[3];
+      res.render("view", {currentPost: post, date: readableDate});
     } else {
       req.flash("error", "Post unable to load.")
       res.redirect("/");

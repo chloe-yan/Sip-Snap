@@ -25,7 +25,7 @@
 }
 
 body {
-    height:100vh;
+    min-height: 100vh;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -273,7 +273,7 @@ nav a {
     border-right: none;
     border-left: none;
     border-radius: 0px;
-    border-bottom: 1.5px solid #2a5183;
+    border-bottom: 2px solid #2a5183;
     font-size: 17px;
     font-family: HK Grotesk SemiBold;
     width: 200px;

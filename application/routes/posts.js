@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var db = require("../conf/database");
 const { successPrint, errorPrint } = require("../helpers/debug/debugprinters");
 var sharp = require("sharp");
 var multer = require("multer");
@@ -13,6 +12,7 @@ const mysql = require('mysql2/promise');
 const cors = require('cors');
 const port = 3100
 const sessions = require('express-session');
+const PostModel = require('../models/Posts');
 const mysqlSession = require('express-mysql-session')(sessions);
 
 var storage = multer.diskStorage({
@@ -49,31 +49,30 @@ router.post("/post", uploader.single("image"), async (req, res, next) => {
         throw new PostError("Must have a title", "post", 200);
     }
 
-    sharp(fileUploaded).resize(200).toFile(thumbnailDestination).then(() => {
-        let baseSQL = "INSERT INTO posts (title, content, photopath, thumbnail, createdAt, author_id) VALUE (?, ?, ?, ?, ?, ?);";
-        let now = new Date().toDateString();
-        let dateArray = now.split(" ");
-        let date = dateArray[1] + " " + dateArray[2].replace("0", "") + ", " + dateArray[3];
-        return db.execute(baseSQL, [title, description, fileUploaded, thumbnailDestination, date, author_id])
-        .then(([results, fields]) => {
-            if (results && results.affectedRows) {
-                req.flash("success", "Your post was successfully created.");
-                res.redirect("/");
-            } else {
-                throw new PostError("Post could not be created.", "post", 200);
-            }
-        })
-        .catch((err) => {
-            if (err instanceof PostError) {
-                errorPrint(err.getMessage());
-                req.flash("error", err.getMessage());
-                res.status(err.getStatus());
-                res.redirect(err.getRedirectURL);
-            } else {
-                next(err);
-            }
-        })
-    });
+    sharp(fileUploaded)
+    .resize(200)
+    .toFile(thumbnailDestination)
+    .then(() => {
+        return PostModel.create(title, description, fileUploaded, thumbnailDestination, author_id);
+    })
+    .then((postCreated) => {
+        if (postCreated) {
+            req.flash("success", "Your post was successfully created.");
+            res.redirect("/");
+        } else {
+            throw new PostError("Post could not be created.", "post", 200);
+        }
+    })
+    .catch((err) => {
+        if (err instanceof PostError) {
+            errorPrint(err.getMessage());
+            req.flash("error", err.getMessage());
+            res.status(err.getStatus());
+            res.redirect(err.getRedirectURL);
+        } else {
+            next(err);
+        }
+    })
 });
 
 router.get("/search", async (req, res, next) => {
@@ -87,23 +86,18 @@ router.get("/search", async (req, res, next) => {
             });
         }
         else {
-            let baseSQL = "SELECT id, title, content, thumbnail, concat_ws(' ', title, content) AS haystack FROM posts HAVING haystack LIKE ?"
-            let [results, fields] = await db.execute(baseSQL, ["%" + searchTerm + "%"])
-            if (results && results.length) {
-                req.flash("info-success", `${results.length} sips found`);
-                res.render("index", {
-                    resultsStatus: "info",
-                    message: `${results.length} sips found`,
-                    results: results
-                });
+            let results = await PostModel.search(searchTerm);
+            if (results.length) {
+                if (results.length == 1) {
+                    req.flash("info-success", `${results.length} sip found`);
+                } else {
+                    req.flash("info-success", `${results.length} sips found`);
+                }
+                res.render("index", {results: results});
             } else {
-                let [results, fields] = await db.execute("SELECT id, title, content, thumbnail, createdAt FROM posts ORDER BY createdAt DESC LIMIT 8", [])
+                let results = await PostModel.getRecentPosts(8);
                 req.flash("info-error", "We couldn't find any sips related to your search.");
-                res.render("index", {
-                    resultsStatus: "info",
-                    message: "We couldn't find any sips related to your search. Feel free to browse our most recent shares!",
-                    results: results
-                });
+                res.render("index", {results: results});
             }
         }
     }
