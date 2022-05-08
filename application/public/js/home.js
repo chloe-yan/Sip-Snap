@@ -1,71 +1,74 @@
-// let photoCount = document.getElementById("count");
-// photoCount.innerText = 0;
-// let photoContainer = document.getElementById("photo-container");
-// let photos = photoContainer.getElementsByClassName("photo");
+function setFlashMessageFadeOut(flashMessageElement) {
+    setTimeout(() => {
+        let currentOpacity = 1.0;
+        let timer = setInterval(() => {
+            if (currentOpacity < 0.05) {
+                clearInterval(timer);
+                flashMessageElement.remove();
+            }
+            currentOpacity = currentOpacity - 0.1;
+            flashMessageElement.style.opacity = currentOpacity;
+        }, 50);
+    }, 2500);
+}
 
-// function buildPhotoDiv(img, titleText) {
-//     let container = document.createElement("div");
-//     let photo = document.createElement("img");
-//     photo.style.opacity = 1
-//     photo.src = img;
-
-//     let title = document.createElement("p")
-//     title.innerText = titleText;
-
-//     container.setAttribute("class", "photo");
-//     container.appendChild(photo);
-//     container.appendChild(title);
-
-//     container.addEventListener("click", () => {
-//         fadeOut = setInterval(() => {
-//             if (photo.style.opacity > 0) {
-//                 photo.style.opacity -= 0.02;
-//             } else {
-//                 photoContainer.removeChild(container);
-//                 clearInterval(fadeOut);
-//             }
-//         }, 12);
-
-//         fadeOut;
-
-//         let count = parseInt(photoCount.innerText);
-//         photoCount.innerText = count - 1;
-//     })
-//     photoContainer.appendChild(container);
-
-//     let count = parseInt(photoCount.innerText);
-//     photoCount.innerText = count + 1;
+// function createCard(postData) {
+//     return `<div id="post-${postData.id}" class="card">
+//         <a class="card-details" href="/post/${postData.id}" class="anchor-buttons"><img src="../images/arrow.png" alt=""></a>
+//         <img class="card-image" draggable="false" src="/${postData.thumbnail}" alt="Missing image">
+//         <div class="card-body">
+//             <p class="card-title">${postData.title}</p>
+//             <p class="card-text">${postData.content}</p>
+//         </div>
+//     </div>`;
 // }
 
-// let photoReq = new XMLHttpRequest();
-// photoReq.open("GET", "https://jsonplaceholder.typicode.com/albums/2/photos");
+// // // function addFlashFromFrontEnd(message) {
+// // //     let flashMessageDiv = document.createElement('div');
+// // //     let innerFlashDiv = document.createElement('div');
+// // //     let innerTextNode = document.createTextNode(message);
+// //     innerFlashDiv.appendChild(innerTextNode);
+// //     flashMessageDiv.appendChild(innerFlashDiv);
+// //     flashMessageDiv.setAttribute('id', 'flash-message');
+// //     innerFlashDiv.setAttribute('class', 'alert alert-info');
+// //     document.getElementsByTagName('body')[0].appendChild(flashMessageDiv);
+// //     setFlashMessageFadeOut(flashMessageDiv);
+// // }
 
-// photoReq.onload = () => {
-//     if (photoReq.readyState == 4) {
-//         let response = JSON.parse(photoReq.response);
-//         response.forEach( (photo) => {
-//             buildPhotoDiv(photo.url, photo.title);
-//         });
-//     }
-// }
-
-// photoReq.send();
-
-// function setFlashMessageFadeOut() {
-//     setTimeout(() => {
-//         let currentOpacity = 1.0;
-//         let timer = setInterval(() => {
-//             if (currentOpacity < 0.05) {
-//                 clearInterval(timer);
-//                 flashElement.remove();
-//             }
-//             currentOpacity = currentOpacity - 0.05;
-//             flashElement.style.opacity = currentOpacity;
-//         }, 50);
-//     }, 4000);
-// }
+// // function executeSearch() {
+// //     let searchTerm = document.getElementById("search-input").value;
+// //     if (!searchTerm) {
+// //         location.replace("/");
+// //         return;
+// //     }
+// //     let mainContent = document.getElementById("photo-container");
+// //     let searchURL = `/posts/search?q=${searchTerm}`;
+// //     fetch(searchURL)
+// //     .then((data) => {
+// //         return data.json();
+// //     })
+// //     .then((dataJSON) => {
+// //         let newMainContentHTML = '';
+// //         dataJSON.results.forEach((row) => {
+// //             newMainContentHTML += createCard(row);
+// //         });
+// //         console.log(newMainContentHTML);
+// //         mainContent.innerHTML = newMainContentHTML;
+// //         console.log();
+// //         console.log(mainContent.innerHTML);
+// //         if (dataJSON.message) {
+// //             addFlashFromFrontEnd(dataJSON.message);
+// //         }
+// //     })
+// //     .catch((err) => console.log(err));
+// // }
 
 // let flashElement = document.getElementById('flash-message');
 // if (flashElement) {
-//     setFlashMessageFadeOut();
+//     setFlashMessageFadeOut(flashElement);
+// }
+
+// let searchForm = document.getElementById("search-bar");
+// if (searchForm) {
+//     searchForm.onsubmit = executeSearch;
 // }

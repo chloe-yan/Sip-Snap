@@ -28,7 +28,7 @@ var storage = multer.diskStorage({
 
 var uploader = multer({storage: storage});
 
-router.post("/create", uploader.single("image"), async (req, res, next) => {
+router.post("/post", uploader.single("image"), async (req, res, next) => {
     let fileUploaded = req.file.path;
     let fileAsThumbnail = `thumbnail-${req.file.filename}`;
     let thumbnailDestination = req.file.destination + "/" + fileAsThumbnail;
@@ -50,11 +50,14 @@ router.post("/create", uploader.single("image"), async (req, res, next) => {
     }
 
     sharp(fileUploaded).resize(200).toFile(thumbnailDestination).then(() => {
-        let baseSQL = "INSERT INTO posts (title, content, photopath, thumbnail, createdAt, author_id) VALUE (?, ?, ?, ?, now(), ?);";
-        return db.execute(baseSQL, [title, description, fileUploaded, thumbnailDestination, author_id])
+        let baseSQL = "INSERT INTO posts (title, content, photopath, thumbnail, createdAt, author_id) VALUE (?, ?, ?, ?, ?, ?);";
+        let now = new Date().toDateString();
+        let dateArray = now.split(" ");
+        let date = dateArray[1] + " " + dateArray[2].replace("0", "") + ", " + dateArray[3];
+        return db.execute(baseSQL, [title, description, fileUploaded, thumbnailDestination, date, author_id])
         .then(([results, fields]) => {
             if (results && results.affectedRows) {
-                // req.flash("success", "Your post was successfully created.");
+                req.flash("success", "Your post was successfully created.");
                 res.redirect("/");
             } else {
                 throw new PostError("Post could not be created.", "post", 200);
@@ -71,6 +74,42 @@ router.post("/create", uploader.single("image"), async (req, res, next) => {
             }
         })
     });
+});
+
+router.get("/search", async (req, res, next) => {
+    try {
+        let searchTerm = req.query.q;
+        if (!searchTerm) {
+            res.send({
+                resultsStatus: "info",
+                message: "No search term given.",
+                results: []
+            });
+        }
+        else {
+            let baseSQL = "SELECT id, title, content, thumbnail, concat_ws(' ', title, content) AS haystack FROM posts HAVING haystack LIKE ?"
+            let [results, fields] = await db.execute(baseSQL, ["%" + searchTerm + "%"])
+            if (results && results.length) {
+                req.flash("info-success", `${results.length} sips found`);
+                res.render("index", {
+                    resultsStatus: "info",
+                    message: `${results.length} sips found`,
+                    results: results
+                });
+            } else {
+                let [results, fields] = await db.execute("SELECT id, title, content, thumbnail, createdAt FROM posts ORDER BY createdAt DESC LIMIT 8", [])
+                req.flash("info-error", "We couldn't find any sips related to your search.");
+                res.render("index", {
+                    resultsStatus: "info",
+                    message: "We couldn't find any sips related to your search. Feel free to browse our most recent shares!",
+                    results: results
+                });
+            }
+        }
+    }
+    catch (err) {
+        next(err);
+    }
 });
 
 module.exports = router;

@@ -1,6 +1,17 @@
-<h1>Post title</h1>
-<div class="post-details">
-    <img src="../img/sample-image.jpeg" alt="">
-    <p id="time">Post creation time</p>
-    <p id="desc">Post description<p>
+<div class="post-container">
+    <a id="back" href="/"><img src="../public/images/back.png" alt=""></a>
+    <div class="post-details">
+        <img draggable="false" src="/{{currentPost.photopath}}">
+        <p id="author">{{currentPost.username}} <span class="dot-separator">•</span> <span id="time">{{currentPost.createdAt}}</span></p>
+        <p id="question">{{currentPost.title}}</p>
+        <p id="desc">{{currentPost.content}}</p>
+    </div>
+
+    <div id="comments">
+        <h3>Comments</h3>
+        <div id="bar-separator"></div>
+        <div class="comment">
+            <textarea id="comment-text"></textarea>
+        </div>
+    </div>
 </div>

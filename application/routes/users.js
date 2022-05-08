@@ -35,14 +35,14 @@ router.post('/register', (req, res, next) => {
   .then(([results, fields]) => {
     if (results && results.affectedRows) {
       successPrint("User successfully created!");
-      // req.flash('success', "User has been successfully made.");
+      req.flash('success', "Welcome to the tearoom!");
       res.redirect('/login');
     } else {
       throw new UserError("Server Error: User could not be created.", "/register", 500);
     }
   })
   .catch((err) => {
-    errorPrint("User could not be created.", err);
+    errorPrint("Your account could not be created.", err);
     if (err instanceof UserError) {
       errorPrint(err.getMessage());
       req.flash('error', err.getMessage());
@@ -76,7 +76,7 @@ router.post('/login', (req, res, next) => {
       req.session.username = username;
       req.session.id = userId;
       res.locals.logged = true;
-      // req.flash('success', "You have been successfully logged in!");
+      req.flash('success', "Welcome to the tearoom!");
       res.redirect("/");
     } else {
       throw new UserError("Invalid username and/or password.", "/login", 200);

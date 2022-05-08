@@ -7,7 +7,7 @@ postsMiddleware.getRecentPosts = function(req, res, next) {
     .then(([results, fields]) => {
         res.locals.results = results;
         if (results && results.length == 0) {
-            req.flash("error", "No posts created yet.");
+            req.flash("error", "No sips in the brewer. Feeling thirsty?");
         }
         next();
     })

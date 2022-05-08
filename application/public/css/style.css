@@ -49,7 +49,6 @@ h1 {
     background-image: linear-gradient(to right, #196fef , #f04494);
 }
 
-
 /* FORMS */
 
 form {
@@ -58,7 +57,7 @@ form {
     font-weight: 500;
     display: flex;
     flex-direction: column;
-    width: 280px;
+    width: 350px;
     margin-bottom: 80px;
 }
 
@@ -150,31 +149,77 @@ a {
     color: #717485;
 }
 
-#post-image {
-    width: 350px;
-}
-
-
 /* VIEW POST */
 
-img {
-    width: 350px;
-    border: 1px solid #2a5183;
-}
-
 .post-details {
+    width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: left;
 }
 
-#time {
-    margin-top: 8px;
-    color: #A3A3A3;
+.post-details img {
+    width: 400px;
+    border: 2px solid #2a5183;
+    border-radius: 5px;
+    cursor: url('../images/sparkles.png') 10 5, auto;
 }
 
-#desc {
+.post-details #question {
+    text-align: left;
     margin-top: 0px;
+}
+
+.post-details #desc {
+    color: #2a5183;
+    margin-top: -15px;
+}
+
+#author::before {
+    content: "@";
+}
+
+#author {
+    color: #2a5183;
+}
+
+.dot-separator {
+    color: #717485;
+}
+
+#time {
+    margin-top: 0px;
+    color: #717485;
+}
+
+.post-container {
+    margin-top: 150px;
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+
+h3 {
+    font-family: "HK Grotesk Bold";
+    margin-top: 0px;
+}
+
+#bar-separator {
+    margin-top: -5px;
+    margin-bottom: 20px;
+    height: 2px;
+    background-color: #EBEBEB;
+}
+
+/* COMMENTS */
+#comments {
+    width: 400px;
+    color: #2a5183;
+}
+
+.comment {
+
 }
 
 /* HOME */
@@ -195,11 +240,6 @@ nav {
     gap: 10px;
 }
 
-.nav-links p {
-    color: #717485;
-    font-weight: bold;
-}
-
 nav a {
     font-family: HK Grotesk Bold;
     font-size: 20px;
@@ -208,11 +248,47 @@ nav a {
 }
 
 .nav-links a {
-    font-family: HK Grotesk;
+    font-family: HK Grotesk SemiBold;
     font-size: 17px;
     color: #2a5183;
     font-weight: 600;
     text-decoration: none;
+}
+
+#search-bar {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0px;
+    width: 242px;
+}
+
+#search-input {
+    padding-left: 0px;
+    padding-right: 40px;
+    padding-bottom: 6px;
+    margin-right: -30px;
+    margin-top: 0px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-radius: 0px;
+    border-bottom: 1.5px solid #2a5183;
+    font-size: 17px;
+    font-family: HK Grotesk SemiBold;
+    width: 200px;
+}
+
+#search-submit {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+#search-submit img {
+    margin-top: 0px;
+    width: 22px;
+    height: 22px;
 }
 
 #photo-container {
@@ -235,6 +311,7 @@ nav a {
     border: 2px solid #2a5183;
     border-radius: 5px;
     margin: auto;
+    cursor: url('../images/sparkles.png') 10 5, auto;
 }
 
 .card-title {
@@ -259,6 +336,12 @@ nav a {
     width: 22px;
     height: 22px;
     border: none;
+}
+
+#back img {
+    width: 24px;
+    height: 24px;
+    margin-right: -100px;
 }
 
 #count-label {
@@ -290,12 +373,32 @@ label {
 #flash-message {
     position: fixed;
     left: 50%;
-    top: 25%;
+    top: 27%;
     transform: translate(-50%, 0);
 }
 
 #flash-message div {
     text-align: center;
+}
+
+.alert-danger {
+    color: #d93640;
+}
+
+.alert-success {
+    color: #009d5c;
+}
+
+.alert-info-success::before {
+    content: "☕ ";
+}
+
+.alert-info-error::before {
+    content: "🧐 ";
+}
+
+.alert {
+    color: #006b9d;
 }
 
 footer {
