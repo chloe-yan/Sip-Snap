@@ -8,6 +8,7 @@ const handlebars = require("express-handlebars");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
+const commentsRouter = require("./routes/comments");
 const { requestPrint, successPrint } = require('./helpers/debug/debugprinters');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
@@ -115,9 +116,10 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use("/", indexRouter); // route middleware from ./routes/index.js
-app.use("/users", usersRouter); // route middleware from ./routes/users.js
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
+app.use("/comments", commentsRouter);
 
 /**
  * Catch all route, if we get to here then the 

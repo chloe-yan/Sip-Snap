@@ -59,7 +59,7 @@ router.post('/login', (req, res, next) => {
     if (loggedUserId > 0) {
       successPrint(`User ${username} is logged in.`);
       req.session.username = username;
-      req.session.id = loggedUserId;
+      req.session.userId = loggedUserId;
       res.locals.logged = true;
       req.flash('success', "Welcome to the tearoom!");
       res.redirect("/");

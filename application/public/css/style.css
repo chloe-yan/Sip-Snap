@@ -118,7 +118,6 @@ input[type=submit] {
 
 input[type=file]::-webkit-file-upload-button:hover {
     color: #6a95ce;
-    
     border: 1.5px solid #6a95ce;
 }
 
@@ -152,10 +151,11 @@ a {
 /* VIEW POST */
 
 .post-details {
-    width: 400px;
+    flex-basis: 400px;
     display: flex;
     flex-direction: column;
     justify-content: left;
+    flex-shrink: 1;
 }
 
 .post-details img {
@@ -180,14 +180,17 @@ a {
 }
 
 #author {
+    font-family: HK Grotesk Bold;
     color: #2a5183;
 }
 
 .dot-separator {
+    margin: 0px;
     color: #717485;
 }
 
 #time {
+    font-family: HK Grotesk;
     margin-top: 0px;
     color: #717485;
 }
@@ -206,7 +209,7 @@ h3 {
 }
 
 #bar-separator {
-    margin-top: -5px;
+    margin-top: -12px;
     margin-bottom: 20px;
     height: 2px;
     background-color: #EBEBEB;
@@ -215,11 +218,58 @@ h3 {
 /* COMMENTS */
 #comments {
     width: 400px;
+    padding: 20px;
+    background-color: #f9f9f9;
     color: #2a5183;
 }
 
 .comment {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+}
 
+.comment-metadata {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+}
+
+#comment-author::before {
+    content: "@";
+}
+
+#comment-author {
+    font-family: HK Grotesk Bold;
+    margin: 0px;
+    margin-right: 6px;
+}
+
+.comment-date {
+    font-family: HK Grotesk;
+    color: #677986;
+    font-size: 14px;
+    margin: 0px;
+    margin-top: 2px;
+    margin-left: 6px;
+}
+
+#comment-message {
+    margin-top: 4px;
+}
+
+#comment-input {
+    width: 360px;
+}
+
+#comment-submit {
+    margin-top: 6px;
+    padding: 4px 20px;
+    transition: ease-out 0.1s;
+}
+
+#comment-submit {
+    
 }
 
 /* HOME */
@@ -338,6 +388,10 @@ nav a {
     border: none;
 }
 
+#back:hover {
+    cursor: pointer;
+}
+
 #back img {
     width: 24px;
     height: 24px;
@@ -408,6 +462,12 @@ footer {
     width: 100vw;
     text-align: center;
     height: 50px;
+}
+
+@media (max-width: 1000px) {
+    .post-container {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 750px) {

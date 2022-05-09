@@ -1,5 +1,5 @@
 <div class="post-container">
-    <a id="back" href="/"><img src="../public/images/back.png" alt=""></a>
+    <a onclick="window.history.back()" id="back"><img src="../public/images/back.png" alt=""></a>
     <div class="post-details">
         <img draggable="false" src="/{{currentPost.photopath}}">
         <p id="author">{{currentPost.username}} <span class="dot-separator">•</span> <span id="time">{{date}}</span></p>
@@ -10,8 +10,86 @@
     <div id="comments">
         <h3>Comments</h3>
         <div id="bar-separator"></div>
-        <div class="comment">
-            <textarea id="comment-text"></textarea>
+        <div id="comments-list">
+            {{#each currentPost.comments}}
+                {{> comment this}}
+            {{/each}}
         </div>
+        <textarea id="comment-input"></textarea>
+        <input type="submit" id="comment-submit" value="Post">
     </div>
 </div>
+
+<script>
+    function getRelativeTime(date) {
+        const difference = Math.round((new Date() - date)/3600);
+        let output = ``;
+        if (difference < 60) {
+            output = `${difference} seconds ago`;
+        } else if (difference < 3600) {
+            output = `${Math.floor(difference / 60)} minutes ago`;
+        } else if (difference < 86400) {
+            output = `${Math.floor(difference / 3600)} hours ago`;
+        } else if (difference < 2620800) {
+            output = `${Math.floor(difference / 86400)} days ago`;
+        } else if (difference < 31449600) {
+            output = `${Math.floor(difference / 2620800)} months ago`;
+        } else {
+            output = `${Math.floor(difference / 31449600)} years ago`;
+        }
+        return output;
+    }
+
+    document.addEventListener("DOMContentLoaded", (event) => {
+        document.querySelectorAll(".comment-date").forEach((date) => {
+            var relativeTime = getRelativeTime(new Date(date.textContent));
+            date.textContent = relativeTime;
+        });
+    });
+
+    function addMessage(data) {
+        let template = document.createElement("template");
+        template.innerHTML = 
+        `<div id="comment-${data.commentId}" class="comment">
+            <div class="comment-metadata">
+                <p id="comment-author">${data.username}</p>
+                <p class="dot-separator"> • </p>
+                <p id="comment-date">${new Date().toLocaleString()}</p>
+            </div>
+            <p id="comment-message">${data.comment}</p>
+        </div>`;
+        document.getElementById("comments-list").firstChild.before(template.content.firstChild);
+    }
+
+    document.getElementById("comment-submit").onclick = (event) => {
+        let commentText = document.getElementById("comment-input").value;
+        let postId = document.location.pathname.match(/\d+/g).map(Number)[0];
+
+        if (!commentText) {
+            return;
+        }
+
+        let fetchOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application/json"
+            },
+            body: JSON.stringify({
+                comment: commentText,
+                postId: postId
+            })
+        }
+
+        fetch("/comments/create", fetchOptions)
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            if (data.code == 1) {
+                addMessage(data);
+            } else {
+                //addFlashFromFrontEnd(data.message, data.status);
+            }
+        })
+        .catch((err) => console.log(err));
+    }
+</script> 

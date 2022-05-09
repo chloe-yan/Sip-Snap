@@ -96,7 +96,7 @@ async function makeCommentsTable(connection) {
     ` 
     CREATE TABLE IF NOT EXISTS photodb.comments (
       id INT NOT NULL AUTO_INCREMENT,
-      comment MEDIUMTEXT NOT NULL,
+      message MEDIUMTEXT NOT NULL,
       comment_post_id INT NOT NULL,
       comment_author_id INT NOT NULL,
       createdAt DATETIME NOT NULL,

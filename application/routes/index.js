@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var isLoggedIn = require('../middleware/routeprotectors.js').userIsLoggedIn;
-var getRecentPosts = require("../middleware/postsmiddleware").getRecentPosts;
+const {getRecentPosts, getPostById, getCommentsByPostId} = require("../middleware/postsmiddleware");
 var db = require("../conf/database");
 
 /* GET home page. */
@@ -29,21 +29,8 @@ router.get('/view', (req, res, next) => {
   res.render('view', { title: 'View an image'});
 })
 
-router.get("/post/:id(\\d+)", (req, res, next) => {
-  let baseSQL = "SELECT u.username, p.title, p.content, p.photopath, p.createdAt FROM users u JOIN posts p ON u.id = p.author_id WHERE p.id=?"
-  let postId = req.params.id;
-  db.execute(baseSQL, [postId]).then(([results, fields]) => {
-    if (results && results.length) {
-      let post = results[0];
-      var readableDate = post["createdAt"].toString();
-      var readableDateArr = readableDate.split(" ");
-      readableDate = readableDateArr[1] + " " + readableDateArr[2].replace("0", "") + ", " + readableDateArr[3];
-      res.render("view", {currentPost: post, date: readableDate});
-    } else {
-      req.flash("error", "Post unable to load.")
-      res.redirect("/");
-    }
-  })
+router.get("/post/:id(\\d+)", getPostById, getCommentsByPostId, (req, res, next) => {
+    res.render("view", {title: `Post ${req.params.id}`});
 });
 
 module.exports = router;
