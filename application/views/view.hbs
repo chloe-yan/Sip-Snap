@@ -1,10 +1,12 @@
 <div class="post-container">
-    <a onclick="window.history.back()" id="back"><img src="../public/images/back.png" alt=""></a>
-    <div class="post-details">
-        <img draggable="false" src="/{{currentPost.photopath}}">
-        <p id="author">{{currentPost.username}} <span class="dot-separator">•</span> <span id="time">{{date}}</span></p>
-        <p id="question">{{currentPost.title}}</p>
-        <p id="desc">{{currentPost.content}}</p>
+    <div class="details-container">
+        <a onclick="window.history.back()" id="back"><img src="../public/images/back.png" alt=""></a>
+        <div class="post-details">
+            <p id="author">{{currentPost.username}} <span class="dot-separator">•</span> <span id="time">{{date}}</span></p>
+            <img draggable="false" src="/{{currentPost.photopath}}">
+            <p id="question">{{currentPost.title}}</p>
+            <p id="desc">{{currentPost.content}}</p>
+        </div>
     </div>
 
     <div id="comments">
@@ -37,6 +39,14 @@
         } else {
             output = `${Math.floor(difference / 31449600)} years ago`;
         }
+        console.log(output);
+        if (output.startsWith("1 ")) {
+            if (output.includes("seconds")) {
+                output = "1 second ago";
+            } else {
+                output = output.replace('s', '');
+            }
+        }
         return output;
     }
 
@@ -54,7 +64,7 @@
             <div class="comment-metadata">
                 <p id="comment-author">${data.username}</p>
                 <p class="dot-separator"> • </p>
-                <p id="comment-date">${new Date().toLocaleString()}</p>
+                <p class="comment-date">${getRelativeTime(new Date())}</p>
             </div>
             <p id="comment-message">${data.comment}</p>
         </div>`;

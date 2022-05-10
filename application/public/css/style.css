@@ -150,12 +150,19 @@ a {
 
 /* VIEW POST */
 
+.details-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    width: 400px;
+}
+
 .post-details {
-    flex-basis: 400px;
+    flex: 1 0 100%;
+    width: 400px;
     display: flex;
     flex-direction: column;
-    justify-content: left;
-    flex-shrink: 1;
+    justify-content: flex-start;
 }
 
 .post-details img {
@@ -167,12 +174,12 @@ a {
 
 .post-details #question {
     text-align: left;
-    margin-top: 0px;
+    margin-top: 15px;
 }
 
 .post-details #desc {
-    color: #2a5183;
-    margin-top: -15px;
+    color: #1b2a3d;
+    margin-top: -10px;
 }
 
 #author::before {
@@ -180,8 +187,9 @@ a {
 }
 
 #author {
+    margin-top: 0px;
     font-family: HK Grotesk Bold;
-    color: #2a5183;
+    color: #1b2a3d;
 }
 
 .dot-separator {
@@ -196,8 +204,14 @@ a {
 }
 
 .post-container {
+    width: 80vw;
+    justify-content: flex-start;
     margin-top: 150px;
     margin-bottom: 80px;
+    margin-left: 0;
+    margin-right: 50px;
+    padding-right: 30px;
+    padding-left: 30px;
     display: flex;
     flex-direction: row;
     gap: 60px;
@@ -206,6 +220,7 @@ a {
 h3 {
     font-family: "HK Grotesk Bold";
     margin-top: 0px;
+    color: #1b2a3d;
 }
 
 #bar-separator {
@@ -217,10 +232,13 @@ h3 {
 
 /* COMMENTS */
 #comments {
-    width: 400px;
+    overflow: auto;
+    overflow-wrap: break-word; 
     padding: 20px;
     background-color: #f9f9f9;
-    color: #2a5183;
+    color: #1b2a3d;
+    flex-grow: 1;
+    margin-left: 50px;
 }
 
 .comment {
@@ -255,11 +273,13 @@ h3 {
 }
 
 #comment-message {
+    color: #2a5183;
     margin-top: 4px;
 }
 
 #comment-input {
-    width: 360px;
+    padding: 8px;
+    width: calc(80vw - 570px);
 }
 
 #comment-submit {
@@ -366,12 +386,29 @@ nav a {
 
 .card-title {
     margin-top: 8px;
-    color: #70778b;
+}
+
+.gradient-1 {
+    background: linear-gradient(to right, #0033cd , #f044a5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-2 {
+    background: linear-gradient(to right, #72dd00 , #447af0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-3 {
+    background: linear-gradient(to right, #c30808 , #f0cb44);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .card-text {
     margin-top: -10px;
-    color: #2a5183;
+    color: #1b2a3d;
 }
 
 .card-details {
@@ -395,7 +432,6 @@ nav a {
 #back img {
     width: 24px;
     height: 24px;
-    margin-right: -100px;
 }
 
 #count-label {
@@ -464,9 +500,26 @@ footer {
     height: 50px;
 }
 
+@media (min-width: 1000px) {
+    #comments {
+        margin-top: 37px;
+    }
+}
+
+
 @media (max-width: 1000px) {
     .post-container {
         flex-direction: column;
+        width: auto;
+        margin-left: -48px;
+        align-items: center;
+    }
+    #comments {
+        margin-left: 48px;
+        width: 70vw;
+    }
+    #comment-input {
+        width: calc(70vw - 20px);
     }
 }
 

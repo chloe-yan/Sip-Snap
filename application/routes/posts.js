@@ -14,6 +14,8 @@ const port = 3100
 const sessions = require('express-session');
 const PostModel = require('../models/Posts');
 const mysqlSession = require('express-mysql-session')(sessions);
+const db = require('../conf/database.js');
+
 
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {

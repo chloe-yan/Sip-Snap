@@ -1,8 +1,16 @@
 <h1>‏‏‎ ‎Brewer 💭</h1>
-<!--<p id="count-label">COUNT</p>
-<p id="count"></p>-->
 <div id="photo-container">
     {{#each results}}
         {{> card this}}
     {{/each}}
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        document.querySelectorAll(".card").forEach((card) => {
+            let id = parseInt(card.id.slice(-2));
+            let gradient = (id % 3) + 1;
+            card.lastElementChild.firstElementChild.classList.add("gradient-" + gradient);
+        });
+    });
+</script>

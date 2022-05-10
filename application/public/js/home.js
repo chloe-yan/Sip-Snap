@@ -63,12 +63,12 @@ function setFlashMessageFadeOut(flashMessageElement) {
 // //     .catch((err) => console.log(err));
 // // }
 
-// let flashElement = document.getElementById('flash-message');
-// if (flashElement) {
-//     setFlashMessageFadeOut(flashElement);
-// }
+let flashElement = document.getElementById('flash-message');
+if (flashElement) {
+    setFlashMessageFadeOut(flashElement);
+}
 
-// let searchForm = document.getElementById("search-bar");
-// if (searchForm) {
-//     searchForm.onsubmit = executeSearch;
-// }
+let searchForm = document.getElementById("search-bar");
+if (searchForm) {
+    searchForm.onsubmit = executeSearch;
+}
