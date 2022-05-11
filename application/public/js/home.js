@@ -68,7 +68,7 @@ if (flashElement) {
     setFlashMessageFadeOut(flashElement);
 }
 
-let searchForm = document.getElementById("search-bar");
-if (searchForm) {
-    searchForm.onsubmit = executeSearch;
-}
+// let searchForm = document.getElementById("search-bar");
+// if (searchForm) {
+//     searchForm.onsubmit = executeSearch;
+// }

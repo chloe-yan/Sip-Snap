@@ -21,6 +21,7 @@ postsMiddleware.getPostById = async function(req, res, next) {
         let results = await getPostById(postId);
         if (results && results.length) {
             res.locals.currentPost = results[0];
+            res.locals.avatar = (results[0]["id"] % 5) + 1;
             var readableDate = results[0]["createdAt"].toString();
             var readableDateArr = readableDate.split(" ");
             readableDate = readableDateArr[1] + " " + readableDateArr[2].replace("0", "") + ", " + readableDateArr[3];

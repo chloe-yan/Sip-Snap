@@ -12,5 +12,12 @@
             let gradient = (id % 3) + 1;
             card.lastElementChild.firstElementChild.classList.add("gradient-" + gradient);
         });
+        document.querySelectorAll(".card-text").forEach((desc) => {
+            let length = desc.textContent.length;
+            desc.textContent = desc.textContent.substring(0, 150);
+            if (length > 150) {
+                desc.textContent += "...";
+            }
+        })
     });
 </script>

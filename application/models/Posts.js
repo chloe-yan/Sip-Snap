@@ -29,7 +29,7 @@ PostModel.getRecentPosts = (numPosts) => {
 };
 
 PostModel.getPostById = (postId) => {
-    let baseSQL = "SELECT u.username, p.title, p.content, p.photopath, p.createdAt FROM users u JOIN posts p ON u.id = p.author_id WHERE p.id=?"
+    let baseSQL = "SELECT u.id, u.username, p.title, p.content, p.photopath, p.createdAt FROM users u JOIN posts p ON u.id = p.author_id WHERE p.id=?"
 
     return db.execute(baseSQL, [postId])
     .then(([results, fields]) => {

@@ -1,8 +1,20 @@
 <div id="comment-{{id}}" class="comment">
     <div class="comment-metadata">
+        <p id="comment-author-id" hidden>{{comment_author_id}}</p>
+        <img alt={{comment_author_id}} class="avatar-comment">
         <p id="comment-author">{{username}}</p>
         <p class="dot-separator"> • </p>
         <p class="comment-date">{{createdAt}}</p>
     </div>
     <p id="comment-message">{{message}}</p>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        document.querySelectorAll(".avatar-comment").forEach((avatar) => {
+            console.log(avatar.alt);
+            let avatarId = (parseInt(avatar.alt) % 5) + 1;
+            avatar.src = "../public/images/icon-" + avatarId + ".png";
+        });
+    });
+</script>

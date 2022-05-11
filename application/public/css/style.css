@@ -223,6 +223,28 @@ h3 {
     color: #1b2a3d;
 }
 
+.author-details {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.avatar-post {
+    margin-top: -10px;
+    width: 42px !important;
+    height: 42px !important;
+    border: none !important;
+}
+
+.avatar-comment {
+    margin-top: -5px;
+    margin-right: 8px;
+    width: 32px !important;
+    height: 32px !important;
+    border: none !important;
+}
+
 #bar-separator {
     margin-top: -12px;
     margin-bottom: 20px;
@@ -232,6 +254,7 @@ h3 {
 
 /* COMMENTS */
 #comments {
+    border-radius: 5px;
     overflow: auto;
     overflow-wrap: break-word; 
     padding: 20px;
@@ -239,6 +262,7 @@ h3 {
     color: #1b2a3d;
     flex-grow: 1;
     margin-left: 50px;
+    height: fit-content;
 }
 
 .comment {
@@ -366,7 +390,8 @@ nav a {
     display: grid;
     grid-template-columns: repeat(3, 200px);
     justify-items: center;
-    gap: 40px;
+    row-gap: 20px;
+    column-gap: 40px;
     margin-bottom: 80px;
 }
 
@@ -389,19 +414,19 @@ nav a {
 }
 
 .gradient-1 {
-    background: linear-gradient(to right, #0033cd , #f044a5);
+    background: linear-gradient(to right, #a400cd, #f044a5);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .gradient-2 {
-    background: linear-gradient(to right, #72dd00 , #447af0);
+    background: linear-gradient(to right, #7b00cd, #a400cd);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .gradient-3 {
-    background: linear-gradient(to right, #c30808 , #f0cb44);
+    background: linear-gradient(to right, #004add, #7b00cd);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -461,7 +486,6 @@ label {
 }
 
 #flash-message {
-    position: fixed;
     left: 50%;
     top: 27%;
     transform: translate(-50%, 0);
@@ -498,6 +522,13 @@ footer {
     width: 100vw;
     text-align: center;
     height: 50px;
+}
+
+::selection {
+    color: white;
+    background: rgb(14, 103, 248);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: white;
 }
 
 @media (min-width: 1000px) {
