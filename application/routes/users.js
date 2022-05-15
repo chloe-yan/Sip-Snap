@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const db = require('../conf/database');
+const db = require('../config/database');
 const UserError = require('../helpers/error/UserError');
 const { successPrint, errorPrint } = require('../helpers/debug/debugprinters');
 const bcrypt = require('bcrypt');
@@ -24,6 +24,13 @@ router.post('/register', (req, res, next) => {
   .then((isEmail) => {
     if (isEmail) {
       throw new UserError("Registration Failed: Email already exists.", "/register", 200);
+    } else {
+      return password == passwordConfirm;
+    }
+  })
+  .then((passwordsMatch) => {
+    if (!passwordsMatch) {
+      throw new UserError("Registration Failed: Passwords do not match.", "/register", 200);
     } else {
       return UserModel.create(username, password, email);
     }
@@ -80,7 +87,7 @@ router.post('/login', (req, res, next) => {
   });
 });
 
-router.get('/logout', (req, res, next) => {
+router.post('/logout', (req, res, next) => {
   req.session.destroy((err) => {
     if (err) {
       errorPrint("Session could not be destroyed.");
@@ -88,9 +95,14 @@ router.get('/logout', (req, res, next) => {
     } else {
       successPrint("Session was destroyed.");
       res.clearCookie("csid");
-      res.redirect('/');
     }
   });
 });
+
+router.get('/logout', (req, res, next) => {
+  req.flash("success", "You are now logged out.");
+  res.locals.logged = false;
+  res.redirect('/');
+})
 
 module.exports = router;

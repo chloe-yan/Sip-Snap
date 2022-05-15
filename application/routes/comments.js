@@ -5,11 +5,11 @@ const { create } = require("../models/Comments");
 
 router.post("/create", (req, res, next) => {
     if (!req.session.username) {
-        errorPrint("You must be logged in to comment!");
+        errorPrint("You must be logged in to comment.");
         res.json({
             code: -1,
             status: "danger",
-            message: "You must be logged in to comment!"
+            message: "You must be logged in to comment."
         });
     } else {
         let {comment, postId} = req.body;

@@ -1,6 +1,8 @@
-const db = require('../conf/database');
+const db = require('../config/database');
 const bcrypt = require("bcrypt");
 const UserModel = {};
+const UserError = require('../helpers/error/UserError');
+
 
 UserModel.create = (username, password, email) => {
     return bcrypt.hash(password, 15)
@@ -54,7 +56,7 @@ UserModel.authenticate = (username, password) => {
             return Promise.resolve(-1);
         }
     })
-    .catch((err) => Promise.reject(err));
+    .catch((err) => Promise.reject(new UserError("Invalid username and/or password.", "/login", 200)));
 }
 
 module.exports = UserModel;

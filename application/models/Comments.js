@@ -1,4 +1,4 @@
-var db = require("../conf/database");
+var db = require("../config/database");
 const CommentModel = {};
 
 CommentModel.create = (userId, postId, comment) => {

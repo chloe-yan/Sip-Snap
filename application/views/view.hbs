@@ -97,8 +97,6 @@
         .then((data) => {
             if (data.code == 1) {
                 addMessage(data);
-            } else {
-                //addFlashFromFrontEnd(data.message, data.status);
             }
         })
         .catch((err) => console.log(err));

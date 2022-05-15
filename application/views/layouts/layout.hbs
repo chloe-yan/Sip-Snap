@@ -7,13 +7,12 @@
     <link rel="icon" href="/public/images/icon.png">
     <link rel='stylesheet' href='/public/css/style.css'/>
     <script defer type="text/javascript" src="/public/js/home.js"></script>
-    <script defer type="text/javascript" src="/public/js/registration.js"></script>
   </head>
   <div id="topbar"></div>
   <body>
     {{> nav}}
     {{#if (emptyObject messages)}}
-    {{> flashmessage}}
+      {{> flashmessage}}
     {{/if}}
     {{{body}}}
   </body>
@@ -29,7 +28,7 @@
         })
         .then((data) => {
           location.replace('/');
-        })
+        });
       }
     }
   </script>

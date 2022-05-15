@@ -12,7 +12,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", (event) => {
         document.querySelectorAll(".avatar-comment").forEach((avatar) => {
-            console.log(avatar.alt);
             let avatarId = (parseInt(avatar.alt) % 5) + 1;
             avatar.src = "../public/images/icon-" + avatarId + ".png";
         });

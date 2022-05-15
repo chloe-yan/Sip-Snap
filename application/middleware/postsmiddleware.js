@@ -4,7 +4,7 @@ const { getCommentsForPost } = require("../models/Comments");
 
 postsMiddleware.getRecentPosts = async function(req, res, next) {
     try {
-        let results = await getRecentPosts(8);
+        let results = await getRecentPosts(100);
         res.locals.results = results;
         if (results.length == 0) {
             req.flash("error", "No sips in the brewer. Feeling thirsty?");
@@ -26,6 +26,7 @@ postsMiddleware.getPostById = async function(req, res, next) {
             var readableDateArr = readableDate.split(" ");
             readableDate = readableDateArr[1] + " " + readableDateArr[2].replace("0", "") + ", " + readableDateArr[3];
             res.locals.date = readableDate;
+            res.locals.question = results[0]["title"];
             next();
         } else {
             req.flash("error", "Sorry, we couldn't find the sip you were looking for!");

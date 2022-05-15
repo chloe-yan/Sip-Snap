@@ -1,8 +1,4 @@
 /* ALL PAGES */
-@font-face {
-    font-family: 'Satoshi';
-    src: url('/public/fonts/Satoshi-Variable.ttf') format('truetype');
-}
 
 @font-face {
     font-family: 'HK Grotesk';
@@ -17,11 +13,6 @@
 @font-face {
     font-family: 'HK Grotesk Bold';
     src: url('/public/fonts/HKGrotesk-Bold.otf') format('truetype');
-}
-
-@font-face {
-    font-family: 'HK Grotesk ExtraBold';
-    src: url('/public/fonts/HKGrotesk-ExtraBold.otf') format('truetype');
 }
 
 body {
@@ -334,6 +325,12 @@ nav {
     gap: 10px;
 }
 
+.nav-links a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
 nav a {
     font-family: HK Grotesk Bold;
     font-size: 20px;
@@ -486,9 +483,19 @@ label {
 }
 
 #flash-message {
-    left: 50%;
-    top: 27%;
+    position: absolute;
+    left: 49.8%;
+    top: 200px;
     transform: translate(-50%, 0);
+}
+
+img {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 #flash-message div {

@@ -16,7 +16,7 @@ const port = 3100
 const sessions = require('express-session');
 const mysqlSession = require('express-mysql-session')(sessions);
 const flash = require('express-flash');
-const db = require('./conf/database.js');
+const db = require('./config/database.js');
 
 const app = express();
 app.engine(
@@ -34,7 +34,7 @@ app.engine(
   })
 );
 
-var mysqlSessionStore = new mysqlSession({/* using default options */}, require('./conf/database.js'));
+var mysqlSessionStore = new mysqlSession({/* using default options */}, require('./config/database.js'));
 
 app.use(sessions({
   key: "csid",
@@ -62,17 +62,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cors());
 
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/images/icon.png'));
 app.use("/public", express.static(path.join(__dirname, "public")));
-
-
-// app.get('/', (req, res) => {
-//   db.query('SELECT 1+1')
-//   .then(([results, fields]) => {
-//     res.json(results);
-//   })
-//   .catch(err => res.json(err));
-// });
 
 app.get('/users', (req, res) => {
   db.query("SELECT * FROM users")

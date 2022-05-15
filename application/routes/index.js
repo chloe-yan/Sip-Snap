@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var isLoggedIn = require('../middleware/routeprotectors.js').userIsLoggedIn;
 const {getRecentPosts, getPostById, getCommentsByPostId} = require("../middleware/postsmiddleware");
-var db = require("../conf/database");
+var db = require("../config/database");
 
 /* GET home page. */
 router.get('/', getRecentPosts, (req, res, next) => {
@@ -25,12 +25,8 @@ router.get('/post', (req, res, next) => {
   res.render('post', { title: 'Share your sip', question: randomQ});
 })
 
-router.get('/view', (req, res, next) => {
-  res.render('view', { title: 'View an image'});
-})
-
-router.get("/post/:id(\\d+)", getPostById, getCommentsByPostId, (req, res, next) => {
-    res.render("view", {title: `Post ${req.params.id}`});
+router.get("/post/:id(\\d+)", getPostById, getCommentsByPostId, (req, res, next) => {  
+  res.render("view", {title: `${res.locals.question.split(' ').slice(0,3).join(' ')}...`});
 });
 
 module.exports = router;

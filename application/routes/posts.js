@@ -6,7 +6,7 @@ var multer = require("multer");
 var crypto = require("crypto");
 var PostError = require("../helpers/error/PostError");
 const jsdom = require("jsdom");
-const { query } = require('../conf/database');
+const { query } = require('../config/database');
 const { JSDOM } = jsdom;
 const mysql = require('mysql2/promise');
 const cors = require('cors');
@@ -14,7 +14,7 @@ const port = 3100
 const sessions = require('express-session');
 const PostModel = require('../models/Posts');
 const mysqlSession = require('express-mysql-session')(sessions);
-const db = require('../conf/database.js');
+const db = require('../config/database.js');
 
 
 var storage = multer.diskStorage({
@@ -42,17 +42,17 @@ router.post("/post", uploader.single("image"), async (req, res, next) => {
         author_id = results[0]["id"];
     })
     .catch((err) => {
-        throw new PostError("Must be logged in to create a post", "login", 200)
+        throw new PostError("You must be logged in to create a post", "login", 200)
     });
 
     if (description == null) {
-        throw new PostError("Must enter a description", "post", 200);
+        throw new PostError("You must enter a description", "post", 200);
     } else if (title == null) {
-        throw new PostError("Must have a title", "post", 200);
+        throw new PostError("Post must have a title", "post", 200);
     }
 
     sharp(fileUploaded)
-    .resize(200)
+    .resize(500)
     .toFile(thumbnailDestination)
     .then(() => {
         return PostModel.create(title, description, fileUploaded, thumbnailDestination, author_id);
@@ -95,11 +95,11 @@ router.get("/search", async (req, res, next) => {
                 } else {
                     req.flash("info-success", `${results.length} sips found`);
                 }
-                res.render("index", {results: results});
+                res.render("index", {results: results, title: `Sips containing '${searchTerm}'`});
             } else {
-                let results = await PostModel.getRecentPosts(8);
+                let results = await PostModel.getRecentPosts(100);
                 req.flash("info-error", "We couldn't find any sips related to your search.");
-                res.render("index", {results: results});
+                res.render("index", {results: results, title: "Brewer"});
             }
         }
     }

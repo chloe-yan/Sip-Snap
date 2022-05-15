@@ -1,4 +1,5 @@
-const db = require('../conf/database');
+const res = require('express/lib/response');
+const db = require('../config/database');
 const PostModel = {};
 
 PostModel.create = (title, description, fileUploaded, thumbnailDestination, author_id) => {
@@ -20,8 +21,8 @@ PostModel.search = (searchTerm) => {
 };
 
 PostModel.getRecentPosts = (numPosts) => {
-    let baseSQL = "SELECT id, title, content, thumbnail, createdAt FROM posts ORDER BY createdAt DESC LIMIT 8";
-    return db.execute(baseSQL)
+    let baseSQL = "SELECT id, title, content, thumbnail, createdAt FROM posts ORDER BY createdAt DESC LIMIT ?";
+    return db.query(baseSQL, [numPosts])
     .then(([results, fields]) => {
         return Promise.resolve(results);
     })
