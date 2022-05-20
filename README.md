@@ -1,12 +1,5 @@
-# Sip Snap: CSC317 Term Project
-
-## Student Information
-
-|               | Information    |
-|:-------------:|:--------------:|
-| Student Name  | Chloe Yan      |
-| Student ID    | 922290873      |
-| Student Email | cyan5@sfsu.edu |
+## Sip Snap 🍵✨
+Grab a cup of tea and take a little break with Sip Snap.
 
 ## Build Instructions
 1. Navigate with `cd` to `/application`
